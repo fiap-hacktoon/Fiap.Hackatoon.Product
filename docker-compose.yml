@@ -1,0 +1,18 @@
+services:
+  hackatoon-services:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5055:80"
+    container_name: hackatoon-product-api
+    environment:
+      - DOTNET_ENVIRONMENT=Docker
+    networks:
+      hackatoon-micro-services:
+        ipv4_address: 172.40.0.10
+
+networks:
+  hackatoon-micro-services:
+    external:
+      name: auxiliares_hackatoon-micro-services
