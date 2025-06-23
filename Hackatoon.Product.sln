@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Appl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Domain", "Fiap.Hackatoon.Product.Domain\Fiap.Hackatoon.Product.Domain.csproj", "{710D8C6F-4027-49BE-A5EF-18AB39961848}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Infrasctructure", "Fiap.Hackatoon.Product.Infrasctructure\Fiap.Hackatoon.Product.Infrasctructure.csproj", "{5C022959-FC52-450F-991B-14A4AFE76A7C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Infrastructure", "Fiap.Hackatoon.Product.Infrastructure\Fiap.Hackatoon.Product.Infrastructure.csproj", "{5C022959-FC52-450F-991B-14A4AFE76A7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Api", "Fiap.Hackatoon.Product.Api\Fiap.Hackatoon.Product.Api.csproj", "{43BBD4BE-D01A-43A3-8045-E74C8E83CC63}"
 EndProject

@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Fiap.Hackatoon.Product.Api/bin/Debug/net8.0/Fiap.Hackatoon.Product.Api.dll",
+            "args": [
+                "--urls",
+                "http://localhost:5055",
+                "-v",
+                "m"
+            ],
+            "cwd": "${workspaceFolder}/Fiap.Hackatoon.Product.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "%s/api/v1/ping"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ENVIRONMENT_OVERRIDE": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            "logging": {
+                "engineLogging": false,
+                "moduleLoad": false,
+                "exceptions": true,
+                "browserStdOut": false
+            }, 
+        }
+    ]
+}

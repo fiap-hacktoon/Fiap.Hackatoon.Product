@@ -1,0 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Fiap.Hackatoon.Product.Domain.Entities.Interfaces;
+
+namespace Fiap.Hackatoon.Product.Infrastructure.Data.Configurations;
+
+public abstract class BaseIdentifierConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : class, IIdentifier
+{
+    public virtual void Configure(EntityTypeBuilder<TEntity> builder)
+    {
+        builder.HasKey(e => e.Id);
+        builder.Property<Guid>("Id")
+                .ValueGeneratedNever()
+                .IsRequired();
+    }
+}
