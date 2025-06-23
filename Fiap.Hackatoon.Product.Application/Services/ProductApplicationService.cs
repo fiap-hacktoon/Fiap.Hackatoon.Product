@@ -63,8 +63,8 @@ public class ProductApplicationService(IProductService productService, IMapper m
 
     public async Task<DTO.Product> GetById(Guid id)
     {
-        var contact = await _productService.GetById(id, include: false, tracking: false);
-        return _mapper.Map<DTO.Product>(contact);
+        var product = await _productService.GetById(id, include: false, tracking: false);
+        return _mapper.Map<DTO.Product>(product);
     }
 
     public async Task<bool> Delete(Guid id)
@@ -83,21 +83,21 @@ public class ProductApplicationService(IProductService productService, IMapper m
         switch(rountingKey)
         {
             case AppConstants.Routes.RabbitMQ.ProductInsert:
-                var contactInsert = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para inserção de produto.");
-                await Add(contactInsert);
+                var productInsert = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para inserção de produto.");
+                await Add(productInsert);
                 break;
 
             case AppConstants.Routes.RabbitMQ.ProductUpdate:
-                var contactUpdate = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para atualização de produto.");
-                await Update(contactUpdate);
+                var productUpdate = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para atualização de produto.");
+                await Update(productUpdate);
                 break;
             
             case AppConstants.Routes.RabbitMQ.ProductDelete:
-                var contactDelete = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para exclusão de produto.");
-                if (contactDelete == null || contactDelete.Id == Guid.Empty)
+                var productDelete = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para exclusão de produto.");
+                if (productDelete == null || productDelete.Id == Guid.Empty)
                     throw new Exception("O produto não existe.");
                 
-                await Delete(contactDelete.Id);
+                await Delete(productDelete.Id);
                 break;
         }
     }

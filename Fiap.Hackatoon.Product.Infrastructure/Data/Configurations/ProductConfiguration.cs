@@ -4,7 +4,7 @@ using DO = Fiap.Hackatoon.Product.Domain.Entities;
 
 namespace Fiap.Hackatoon.Product.Infrastructure.Data.Configurations;
 
-public class ContactConfiguration : BaseEntityConfiguration<DO.Product>
+public class ProductConfiguration : BaseEntityConfiguration<DO.Product>
 {
     public override void Configure(EntityTypeBuilder<DO.Product> builder)
     {
