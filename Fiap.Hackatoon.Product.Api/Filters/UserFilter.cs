@@ -2,9 +2,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
-using Fiap.Hackatoon.Product.Application.Interfaces;
-using Fiap.Hackatoon.Product.Application.Services;
-using Fiap.Hackatoon.Product.Domain.Entities;
 using Fiap.Hackatoon.Product.Domain.Settings;
 using Fiap.Hackatoon.Product.Application.DataTransferObjects;
 using Fiap.Hackatoon.Product.Infrastructure.Helper;
@@ -16,7 +13,7 @@ public class UserFilter(IOptions<TokenSettings> options) : IAuthorizationFilter
 {
     private readonly TokenSettings _settings = options.Value;
 
-    public async void OnAuthorization(AuthorizationFilterContext context)
+    public void OnAuthorization(AuthorizationFilterContext context)
     {
         if (context.Filters.Any(f => f is SkipUserFilterAttribute))
             return;

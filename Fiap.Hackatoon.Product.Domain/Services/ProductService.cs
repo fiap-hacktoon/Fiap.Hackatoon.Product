@@ -25,7 +25,7 @@ public class ProductService(IProductRepository productRepository) : BaseService<
 
         if (product != null)
             throw new ValidationException("O produto já existe.");
-        
+
         return await base.Add(entity);
     }
 
@@ -42,4 +42,7 @@ public class ProductService(IProductRepository productRepository) : BaseService<
 
         await base.Remove(entity);
     }
+
+    public async Task<List<DO.Product>> GetByType(string nameOrCode)
+        => await _productRepository.GetByType(nameOrCode) ?? [];
 }

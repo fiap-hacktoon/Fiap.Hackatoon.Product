@@ -1,29 +1,24 @@
-using System.Text.Json;
 using AutoMapper;
-using DO = Fiap.Hackatoon.Product.Domain.Entities;
 using MSG = Fiap.Hackatoon.Product.Application.DataTransferObjects.MessageBrokers;
 using Fiap.Hackatoon.Product.Application.Interfaces;
 using DTO = Fiap.Hackatoon.Product.Application.DataTransferObjects;
 using Fiap.Hackatoon.Product.Domain.Interfaces;
 using Fiap.Hackatoon.Product.Domain.Constants;
+using Fiap.Hackatoon.Product.Domain.Interfaces.RabbitMQ;
+using Fiap.Hackatoon.Product.Application.DataTransferObjects;
 
 namespace Fiap.Hackatoon.Product.Application.Services;
 
-public class ProductApplicationService(IProductService productService, IMapper mapper) : IProductApplicationService
+public class ProductApplicationService(IProductService productService, IMapper mapper, IRabbitMQPublisher rabbitMqService) : IProductApplicationService
 {
     private readonly IProductService _productService = productService;
+    private readonly IRabbitMQPublisher _rabbitMqService = rabbitMqService;
     private readonly IMapper _mapper = mapper;
 
-    public async Task<DTO.Product> Add(DTO.Product model)
-    {
-        var product = _mapper.Map<DO.Product>(model);
+    public async Task Add(DTO.Product model)
+        => await _rabbitMqService.PublishAsync(_mapper.Map<MSG.Product>(model), AppConstants.Routes.RabbitMQ.ProductInsert);
 
-        product = await _productService.Add(product);
-
-        return _mapper.Map<DTO.Product>(product);
-    }
-
-    public async Task<DTO.Product> Update(DTO.Product model)
+    public async Task Update(DTO.Product model)
     {
         if (!model.Id.HasValue)
             throw new Exception("Dados inválidos para atualização do produto.");
@@ -31,34 +26,17 @@ public class ProductApplicationService(IProductService productService, IMapper m
         var product = await _productService.GetById(model.Id.Value, include: false, tracking: true);
         if (product == null)
             throw new Exception("O produto não existe.");
-            
-        _mapper.Map(model, product);
 
-        product = await _productService.Update(product);
-
-        return _mapper.Map<DTO.Product>(product);
+        await _rabbitMqService.PublishAsync(_mapper.Map<MSG.Product>(model), AppConstants.Routes.RabbitMQ.ProductUpdate);
     }
 
-    public async Task<DTO.Product> Add(MSG.Product model)
+    public async Task Delete(Guid id)
     {
-        var product = _mapper.Map<DO.Product>(model);
-
-        product = await _productService.Add(product);
-
-        return _mapper.Map<DTO.Product>(product);
-    }
-
-    public async Task<DTO.Product> Update(MSG.Product model)
-    {
-        var product = await _productService.GetById(model.Id, include: false, tracking: true);
+        var product = await _productService.GetById(id, include: false, tracking: true);
         if (product == null)
-            throw new Exception("O contato não existe.");
-            
-        _mapper.Map(model, product);
+            throw new Exception("O produto não existe.");
 
-        product = await _productService.Update(product);
-
-        return _mapper.Map<DTO.Product>(product);
+        await _rabbitMqService.PublishAsync(_mapper.Map<DTO.Identifier>(new Identifier() { Id = product.Id }), AppConstants.Routes.RabbitMQ.ProductDelete);
     }
 
     public async Task<DTO.Product> GetById(Guid id)
@@ -67,39 +45,10 @@ public class ProductApplicationService(IProductService productService, IMapper m
         return _mapper.Map<DTO.Product>(product);
     }
 
-    public async Task<bool> Delete(Guid id)
+    public async Task<List<DTO.Product>> GetByType(string nameOrCode)
     {
-        var product = await _productService.GetById(id, include: false, tracking: true);
-        if (product == null)
-            throw new Exception("O produto não existe.");
-
-        await _productService.Remove(product);
-
-        return true;
-    }
-
-    public async Task Consumer(string message, string rountingKey)
-    {
-        switch(rountingKey)
-        {
-            case AppConstants.Routes.RabbitMQ.ProductInsert:
-                var productInsert = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para inserção de produto.");
-                await Add(productInsert);
-                break;
-
-            case AppConstants.Routes.RabbitMQ.ProductUpdate:
-                var productUpdate = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para atualização de produto.");
-                await Update(productUpdate);
-                break;
-            
-            case AppConstants.Routes.RabbitMQ.ProductDelete:
-                var productDelete = JsonSerializer.Deserialize<MSG.Product>(message) ?? throw new Exception("Mensagem inválida para exclusão de produto.");
-                if (productDelete == null || productDelete.Id == Guid.Empty)
-                    throw new Exception("O produto não existe.");
-                
-                await Delete(productDelete.Id);
-                break;
-        }
+        var products = await _productService.GetByType(nameOrCode);
+        return _mapper.Map<List<DTO.Product>>(products);
     }
 
     public void Dispose()

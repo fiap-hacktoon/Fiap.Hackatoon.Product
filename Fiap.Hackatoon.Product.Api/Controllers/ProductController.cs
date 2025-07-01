@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Fiap.Hackatoon.Product.Application.Interfaces;
 using DTO = Fiap.Hackatoon.Product.Application.DataTransferObjects;
 using Fiap.Hackatoon.Product.Api.Filters;
@@ -28,8 +27,8 @@ public class ProductController(ILogger<ProductController> logger, IProductApplic
     {
         try
         {
-            var product = await _productApplicationService.Add(model);
-            return Ok(product);
+            await _productApplicationService.Add(model);
+            return Ok("Produto enviado para criação.");
         }
         catch (Exception ex)
         {
@@ -51,8 +50,8 @@ public class ProductController(ILogger<ProductController> logger, IProductApplic
     {
         try
         {
-            var product = await _productApplicationService.Update(model);
-            return Ok(product);
+            await _productApplicationService.Update(model);
+            return Ok("Produto enviado para atualização.");
         }
         catch (Exception ex)
         {
@@ -101,7 +100,30 @@ public class ProductController(ILogger<ProductController> logger, IProductApplic
         {
             await _productApplicationService.Delete(id);
 
-            return Ok("produto removido com sucesso.");
+            return Ok("Produto enviado para remoção.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Obter produtos por tipo
+    /// </summary>
+    /// <param name="nameOrCode">Nome ou código do tipo de produto</param>
+    /// <returns>Uma lista de produtos do tipo especificado</returns>
+    [HttpGet("type/{nameOrCode}")]
+    // [Authorize(Policy = Policies.SuperOrModerator)]
+    [SkipUserFilter]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(List<DTO.Product>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetByType(string nameOrCode)
+    {
+        try
+        {
+            var products = await _productApplicationService.GetByType(nameOrCode);
+            return Ok(products);
         }
         catch (Exception ex)
         {

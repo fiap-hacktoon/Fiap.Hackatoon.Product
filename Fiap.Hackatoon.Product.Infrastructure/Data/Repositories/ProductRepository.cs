@@ -17,4 +17,9 @@ public class ProductRepository(ApplicationDBContext context) : BaseRepository<DO
     {
         return await FindBy(c => c.Name.Contains(name)).ToListAsync();
     }
+
+    public async Task<List<DO.Product>> GetByType(string nameOrCode)
+    {
+        return await FindBy(c => c.Type.Name.Contains(nameOrCode) || c.Type.Code.Contains(nameOrCode)).ToListAsync();
+    }
 }

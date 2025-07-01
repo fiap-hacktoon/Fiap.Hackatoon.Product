@@ -5,4 +5,5 @@ namespace Fiap.Hackatoon.Product.Domain.Interfaces.Infrastructure;
 public interface IProductRepository : IRepository<DO.Product>
 {
     Task<DO.Product> GetById(Guid id, bool include = false, bool tracking = false);
+    Task<List<DO.Product>> GetByType(string nameOrCode);
 }

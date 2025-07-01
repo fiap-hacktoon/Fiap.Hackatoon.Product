@@ -7,6 +7,8 @@ public class Product : BaseModel
     [Required(ErrorMessage = "O tipo do produto é obrigatório.")]
     public Guid TypeId { get; set; }
 
+    public ProductType? Type { get; set; } = null;
+
     [Required(ErrorMessage = "O campo nome é obrigatório.")]
     [StringLength(255, ErrorMessage = "O nome deve ter no máximo 255 caracteres.")]
     public string Name { get; set; } = null!;

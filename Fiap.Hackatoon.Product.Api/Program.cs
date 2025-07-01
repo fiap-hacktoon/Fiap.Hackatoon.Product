@@ -25,9 +25,10 @@ using Fiap.Hackatoon.Product.Domain.Interfaces.Security;
 using Fiap.Hackatoon.Product.Domain.Services.Security;
 using Fiap.Hackatoon.Product.Application.Interfaces;
 using Fiap.Hackatoon.Product.Application.Services;
-using Fiap.Hackatoon.Product.Api.Robots.RabbitMQ;
 using Fiap.Hackatoon.Product.Infrastructure.Data;
 using Fiap.Hackatoon.Product.Infrastructure.Data.Repositories;
+using Fiap.Hackatoon.Product.Infrastructure.External;
+using Fiap.Hackatoon.Product.Domain.Interfaces.RabbitMQ;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
@@ -183,9 +184,12 @@ builder.Services.AddScoped<IAuthorizationFilter, UserFilter>();
 
 #endregion
 
-#region RabbitMQConsumers
+#region RabbitMQProducer
 
-builder.Services.AddHostedService<ProductConsumerService>();
+builder.Services.Configure<RabbitMQOptions>(
+    builder.Configuration.GetSection("RabbitMQ"));
+
+builder.Services.AddSingleton<IRabbitMQPublisher, RabbitMQPublisher>();
 
 #endregion
 

@@ -15,7 +15,7 @@ public class ProductMapper : Profile
                 opt.Condition(src => src.Id.HasValue == false || src.Id.Value == default);
                 opt.UseDestinationValue();
             })
-            .ForMember(dest => dest.OrderProducts, opt => opt.Ignore())
+            .ForMember(dest => dest.Type, opt => opt.Ignore())
             .ReverseMap()
             ;
 
