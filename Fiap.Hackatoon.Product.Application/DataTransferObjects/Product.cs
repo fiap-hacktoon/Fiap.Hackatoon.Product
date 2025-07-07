@@ -5,6 +5,7 @@ namespace Fiap.Hackatoon.Product.Application.DataTransferObjects;
 public class Product : BaseModel
 {
     [Required(ErrorMessage = "O tipo do produto é obrigatório.")]
+    [RegularExpression(@"^(?!00000000-0000-0000-0000-000000000000).*$", ErrorMessage = "O tipo do produto é obrigatório.")]
     public Guid TypeId { get; set; }
 
     public ProductType? Type { get; set; } = null;

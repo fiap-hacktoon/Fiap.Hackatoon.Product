@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Infr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Api", "Fiap.Hackatoon.Product.Api\Fiap.Hackatoon.Product.Api.csproj", "{43BBD4BE-D01A-43A3-8045-E74C8E83CC63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap.Hackatoon.Product.Tests", "Fiap.Hackatoon.Product.Tests\Fiap.Hackatoon.Product.Tests.csproj", "{5CA2F2F5-A0FC-4080-8218-48223A87522A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{43BBD4BE-D01A-43A3-8045-E74C8E83CC63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43BBD4BE-D01A-43A3-8045-E74C8E83CC63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43BBD4BE-D01A-43A3-8045-E74C8E83CC63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CA2F2F5-A0FC-4080-8218-48223A87522A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CA2F2F5-A0FC-4080-8218-48223A87522A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CA2F2F5-A0FC-4080-8218-48223A87522A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CA2F2F5-A0FC-4080-8218-48223A87522A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
