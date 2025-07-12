@@ -43,6 +43,6 @@ public class ProductService(IProductRepository productRepository) : BaseService<
         await base.Remove(entity);
     }
 
-    public async Task<List<DO.Product>> GetByType(string nameOrCode)
-        => await _productRepository.GetByType(nameOrCode) ?? [];
+    public async Task<List<Views.ElasticSearch.ProductByType>> GetByType(string nameOrCode)
+        => await _productRepository.GetByType(nameOrCode) ?? new List<Views.ElasticSearch.ProductByType>();
 }

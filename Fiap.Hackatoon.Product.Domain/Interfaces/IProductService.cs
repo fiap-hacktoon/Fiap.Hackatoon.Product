@@ -5,5 +5,5 @@ namespace Fiap.Hackatoon.Product.Domain.Interfaces;
 public interface IProductService : IBaseService<DO.Product>
 {
     Task<DO.Product> GetById(Guid id, bool include, bool tracking);
-    Task<List<DO.Product>> GetByType(string nameOrCode);
+    Task<List<Views.ElasticSearch.ProductByType>> GetByType(string nameOrCode);
 }

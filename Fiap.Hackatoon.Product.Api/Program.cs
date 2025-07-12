@@ -29,6 +29,8 @@ using Fiap.Hackatoon.Product.Infrastructure.Data;
 using Fiap.Hackatoon.Product.Infrastructure.Data.Repositories;
 using Fiap.Hackatoon.Product.Infrastructure.External;
 using Fiap.Hackatoon.Product.Domain.Interfaces.RabbitMQ;
+using Fiap.Hackatoon.Product.Domain.Interfaces.ElasticSearch;
+using Fiap.Hackatoon.Product.Infrastructure.ElasticSearch.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
@@ -190,6 +192,17 @@ builder.Services.Configure<RabbitMQOptions>(
     builder.Configuration.GetSection("RabbitMQ"));
 
 builder.Services.AddSingleton<IRabbitMQPublisher, RabbitMQPublisher>();
+
+#endregion
+
+#region ElasticSearch
+
+builder.Services.Configure<ElasticSearchSettings>(
+    builder.Configuration.GetSection("ElasticSearch")
+);
+
+builder.Services.AddScoped(typeof(IElasticSearchService<>), typeof(ElasticSearchService<>));
+builder.Services.AddScoped<IProductElasticSearchService, ProductElasticSearchService>();
 
 #endregion
 

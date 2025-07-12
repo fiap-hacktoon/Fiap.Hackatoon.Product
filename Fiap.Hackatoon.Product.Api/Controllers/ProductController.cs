@@ -112,18 +112,44 @@ public class ProductController(ILogger<ProductController> logger, IProductApplic
     /// Obter produtos por tipo
     /// </summary>
     /// <param name="nameOrCode">Nome ou código do tipo de produto</param>
+    /// <param name="page">Número da página para paginação</param>
+    /// <param name="size">Tamanho da página para paginação</param>
+    /// <remarks>
     /// <returns>Uma lista de produtos do tipo especificado</returns>
     [HttpGet("type/{nameOrCode}")]
     // [Authorize(Policy = Policies.SuperOrModerator)]
     [SkipUserFilter]
     [Produces("application/json")]
     [ProducesResponseType(typeof(List<DTO.Product>), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetByType(string nameOrCode)
+    public async Task<IActionResult> GetByType([FromRoute]string nameOrCode, [FromQuery]int page = 0, [FromQuery]int size = 20)
     {
         try
         {
-            var products = await _productApplicationService.GetByType(nameOrCode);
+            var products = await _productApplicationService.GetByType(nameOrCode, page, size);
             return Ok(products);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Insere produtos no ElasticSearch por tipo
+    /// </summary>
+    /// <param name="nameOrCode">Nome ou código do tipo de produto</param>
+    /// <returns>Status da operação</returns>
+    [HttpPost("elasticsearch/insert/{nameOrCode}")]
+    // [Authorize(Policy = Policies.SuperOrModerator)]
+    [SkipUserFilter]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> InsertElasticSearch([FromRoute] string nameOrCode)
+    {
+        try
+        {
+            await _productApplicationService.InsertElasticSearch(nameOrCode);
+            return Ok("Produtos inseridos no ElasticSearch.");
         }
         catch (Exception ex)
         {
