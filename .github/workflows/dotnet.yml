@@ -7,19 +7,51 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-
+  build-and-test:	
+    name: Runnig the Job test
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Step 1 - Check Out
+        uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Docker Login
+        uses: docker/login-action@v3.0.0
+        with:
+          username: 'rmahlow'
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}       
+
+      - name: Build and Push Docker images
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .       
+          file: ./Fiap.Hackatoon.Product.API/Dockerfile
+          tags: 'rmahlow/fiaphackatoonproductapi:6.0'
+          push: true
+
+      - name: Restore dependencies
+        run: dotnet restore
+        
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Unit and Integration Tests 
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Set Up Kubernetes
+        uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: ${{secrets.KUBE_CONFIG}}
+          version: 1.21.0
+
+      - name: Make script executable
+        run: chmod +x ./Fiap.Hackatoon.Product.API/Kubernetes/deploy.sh
+
+      - name: Deploy to AKS
+        run: bash deploy.sh
+        working-directory: ./Fiap.Hackatoon.Product.API/Kubernetes/
