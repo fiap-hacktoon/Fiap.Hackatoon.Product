@@ -49,7 +49,7 @@ if (string.IsNullOrEmpty(jwtKeyConfig))
 
 builder.Services.Configure<GlobalSettings>(builder.Configuration);
 builder.Services.AddHealthChecks().ForwardToPrometheus();
-// builder.WebHost.UseUrls("https://0.0.0.0:5055");
+// builder.WebHost.UseUrls("https://0.0.0.0:8088");
 
 builder.Services.AddAuthentication(o =>
 {

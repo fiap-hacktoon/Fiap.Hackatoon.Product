@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-api-configmap
+data:
+  Server: "rabbitmq-clusterip"
+  Port: "5672"
+  QueueNameClienteCreate: "ClienteCreate"
+  QueueNameClienteUpdate: "ClienteUpdate"
+  QueueNameEmployeeCreate: "EmployeeCreate"
+  QueueNameEmployeeUpdate: "EmployeeUpdate"

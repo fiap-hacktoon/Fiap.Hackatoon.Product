@@ -23,7 +23,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Expose the port the app runs on
-EXPOSE 5055
+EXPOSE 8088
 
 ENV ASPNETCORE_ENVIRONMENT=Docker
 
