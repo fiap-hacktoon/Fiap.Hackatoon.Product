@@ -42,7 +42,7 @@ jobs:
           push: true
           tags: 'rmahlow/fiaphackatoonproductapi:7.0'
 
-      - name: Set Up Kubernetes
+      - name: Set Up Kubernets
         uses: azure/k8s-set-context@v1
         with:
           method: kubeconfig
@@ -50,8 +50,8 @@ jobs:
           version: 1.21.0
 
       - name: Make script executable
-        run: chmod +x ./Fiap.Hackatoon.Product.API/Kubernetes/deploy.sh
+        run: chmod +x ./Fiap.Hackatoon.Product.API/Kubernets/deploy.sh
 
       - name: Deploy to AKS
         run: bash deploy.sh
-        working-directory: ./Fiap.Hackatoon.Product.API/Kubernetes/
+        working-directory: ./Fiap.Hackatoon.Product.API/Kubernets/

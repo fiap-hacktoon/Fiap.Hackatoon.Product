@@ -1,5 +1,5 @@
 set -e  # Encerra o script em caso de erro
-echo "🚀 Iniciando o deploy da aplicação Product API no Kubernetes..."
+echo "🚀 Iniciando o deploy da aplicação Product API no Kubernets..."
 
 echo "🔐 Aplicando Secret da aplicação..."
 kubectl apply -f app-secrets.yaml  # Adiciona o Secret
