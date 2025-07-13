@@ -30,7 +30,7 @@ jobs:
         with:
           context: .       
           file: ./Fiap.Hackatoon.Product.API/Dockerfile
-          tags: 'rmahlow/fiaphackatoonproductapi:6.0'
+          tags: 'rmahlow/fiaphackatoonproductapi:7.0'
           push: true
 
       - name: Restore dependencies
