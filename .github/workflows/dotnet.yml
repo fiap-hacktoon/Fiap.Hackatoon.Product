@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: 'rmahlow/fiaphackatoonproductapi:7.0'
+          tags: 'rmahlow/fiaphackatoonproductapi:latest'
 
       - name: Set Up Kubernets
         uses: azure/k8s-set-context@v1

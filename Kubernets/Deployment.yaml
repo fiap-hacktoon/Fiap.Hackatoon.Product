@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: product-api
-        image: rmahlow/fiaphackatoonproductapi:7.0
+        image: rmahlow/fiaphackatoonproductapi:latest
         ports:
         - containerPort: 8088
         resources:
