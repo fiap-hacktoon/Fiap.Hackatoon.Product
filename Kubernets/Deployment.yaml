@@ -28,11 +28,11 @@ spec:
         env:
         - name: ASPNETCORE_URLS
           value: "http://+:8088"
-        - name: ConnectionStrings__DefaultConnection
+        - name: ConnectionStrings__SQLConnection
           valueFrom:
             secretKeyRef:
               name: product-api-secrets
-              key: DefaultConnection
+              key: SQLConnection
         - name: ElasticSettings__ApiKey
           valueFrom:
             secretKeyRef:
