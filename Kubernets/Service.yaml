@@ -10,7 +10,7 @@ spec:
     - protocol: TCP
       port: 80           # Porta acessada externamente
       targetPort: 8088   # Porta do container
-      nodePort: 30081    # Porta exposta no n� (opcional)
+      nodePort: 30088    # Porta exposta no n� (opcional)
   type: NodePort
 ---
 # Service LoadBalancer: Acesso externo gerenciado (em nuvem)
@@ -23,6 +23,6 @@ spec:
     app: product-api
   ports:
     - protocol: TCP
-      port: 5002           # Porta do servi�o
+      port: 5088           # Porta do servi�o
       targetPort: 8088   # Porta do container
   type: LoadBalancer
