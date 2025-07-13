@@ -19,20 +19,6 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
-      - name: Docker Login
-        uses: docker/login-action@v3.0.0
-        with:
-          username: 'rmahlow'
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}       
-
-      - name: Build and Push Docker images
-        uses: docker/build-push-action@v5.0.0
-        with:
-          context: .       
-          file: ./Fiap.Hackatoon.Product.API/Dockerfile
-          tags: 'rmahlow/fiaphackatoonproductapi:7.0'
-          push: true
-
       - name: Restore dependencies
         run: dotnet restore
         
@@ -41,6 +27,20 @@ jobs:
 
       - name: Unit and Integration Tests 
         run: dotnet test --no-build --verbosity normal
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3.0.0
+        with:
+          username: 'rmahlow'
+          password: ${{ secrets.DOCKERHUB_PASSWORD }} 
+
+      - name: Publish Docker Image
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          file: .Dockerfile
+          push: true
+          tags: 'rmahlow/fiaphackatoonproductapi:7.0'
 
       - name: Set Up Kubernetes
         uses: azure/k8s-set-context@v1
