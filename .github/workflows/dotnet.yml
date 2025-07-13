@@ -38,7 +38,7 @@ jobs:
         uses: docker/build-push-action@v5.0.0
         with:
           context: .
-          file: .Dockerfile
+          file: ./Dockerfile
           push: true
           tags: 'rmahlow/fiaphackatoonproductapi:7.0'
 
