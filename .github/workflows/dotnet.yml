@@ -50,8 +50,8 @@ jobs:
           version: 1.21.0
 
       - name: Make script executable
-        run: chmod +x ./Fiap.Hackatoon.Product.API/Kubernets/deploy.sh
+        run: chmod +x ./Kubernets/deploy.sh
 
       - name: Deploy to AKS
         run: bash deploy.sh
-        working-directory: ./Fiap.Hackatoon.Product.API/Kubernets/
+        working-directory: ./Kubernets/
