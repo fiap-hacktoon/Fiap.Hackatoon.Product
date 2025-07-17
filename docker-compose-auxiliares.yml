@@ -56,3 +56,19 @@ services:
     networks:
       hackatoon-micro-services:
         ipv4_address: 172.40.0.5
+
+  mysql:
+    image: mysql:8.0
+    container_name: hackatoon-mysql
+    ports:
+      - "30306:30306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "yourpassword"
+      MYSQL_DATABASE: OrdersDb
+      MYSQL_USER: grupo10
+      MYSQL_PASSWORD: "yourpassword"
+    networks:
+      hackatoon-micro-services:
+        ipv4_address: 172.40.0.6
+    volumes:
+      - ./mysql/data:/var/lib/mysql

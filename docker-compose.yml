@@ -1,7 +1,7 @@
 services:
   hackatoon-services:
     build:
-      context: .
+      context: ./Fiap.Hackatoon.Product
       dockerfile: Dockerfile
     ports:
       - "8088:80"
